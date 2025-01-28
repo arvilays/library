@@ -79,12 +79,18 @@ mainContainer.addEventListener("click", () => {
 addBookButton.addEventListener("click", () => {
     let newBook = {};
     newBook.title = addBookTitle.value;
+    addBookTitle.value = "";
     newBook.author = addBookAuthor.value;
+    addBookAuthor.value = "";
     newBook.pages = addBookPages.value;
+    addBookPages.value = "";
     newBook.cover_url = addBookCoverURL.value;
+    addBookCoverURL.value = "";
     newBook.read = addBookRead.checked;
+    addBookRead.checked = false;
     newBook.id = generateAvailableBookID();
     addBook(newBook);
+    
 });
 
 /*** FUNCTIONS ***/
