@@ -16,39 +16,75 @@ const readColor = "invert(66%) sepia(9%) saturate(6444%) hue-rotate(72deg) brigh
 
 let myLibrary = JSON.parse(localStorage.getItem("myLibrary")) || [
     {
-        title: "The Great Gatsby",
-        author: "F. Scott Fitzgerald",
-        cover_url: "https://m.media-amazon.com/images/I/61dRoDRubtL._SL1500_.jpg",
-        pages: 180,
+        title: "Delicious in Dungeon, Vol. 1",
+        author: "Ryoko Kui",
+        cover_url: "https://m.media-amazon.com/images/I/91G0rVgg5uL._SL1500_.jpg",
+        pages: 192,
         read: true,
-        id: 0,
-    },
-
-    {
-        title: "1984",
-        author: "George Orwell",
-        cover_url: "https://m.media-amazon.com/images/I/91VsLImyJgL._SL1500_.jpg",
-        pages: 368,
-        read: false,
         id: 1,
     },
 
     {
-        title: "Lord of the Flies",
-        author: "William Golding",
-        cover_url: "https://m.media-amazon.com/images/I/716MU3GOvJL._SL1200_.jpg",
-        pages: 182,
+        title: "Witch Hat Atelier, Vol. 1",
+        author: "Kamome Shirahama",
+        cover_url: "https://m.media-amazon.com/images/I/A1ngtfAT8IL._SL1500_.jpg",
+        pages: 211,
         read: false,
         id: 2,
     },
 
     {
-        title: "Fahrenheit 451",
-        author: "Ray Bradbury",
-        cover_url: "https://m.media-amazon.com/images/I/61l8LHt4MeL._SL1500_.jpg",
-        pages: 194,
+        title: "Goodnight Punpun, Vol. 1",
+        author: "Inio Asano",
+        cover_url: "https://m.media-amazon.com/images/I/917IJDfk36L._SL1500_.jpg",
+        pages: 448,
         read: true,
         id: 3,
+    },
+
+    {
+        title: "Land of the Lustrous, Vol. 1",
+        author: "Haruko Ichikawa",
+        cover_url: "https://m.media-amazon.com/images/I/91EKWaQmLKL._SL1500_.jpg",
+        pages: 192,
+        read: false,
+        id: 4,
+    },
+
+    {
+        title: "Goodbye, Eri",
+        author: "Tatsuki Fujimoto",
+        cover_url: "https://m.media-amazon.com/images/I/71fgXFnzayL._SL1500_.jpg",
+        pages: 208,
+        read: false,
+        id: 5,
+    },
+
+    {
+        title: "One Piece, Vol. 1: Romance Dawn",
+        author: "Eiichiro Oda",
+        cover_url: "https://m.media-amazon.com/images/I/71y+XnBXm4L._SL1000_.jpg",
+        pages: 216,
+        read: true,
+        id: 6,
+    },
+
+    {
+        title: "Berserk, Vol. 1",
+        author: "Kentaro Miura",
+        cover_url: "https://m.media-amazon.com/images/I/71lnvXSiITL._SL1200_.jpg",
+        pages: 224,
+        read: false,
+        id: 6,
+    },
+
+    {
+        title: "Dragon Ball, Vol. 1",
+        author: "Akira Toriyama",
+        cover_url: "https://m.media-amazon.com/images/I/81qJxMgdrqL._SL1500_.jpg",
+        pages: 192,
+        read: false,
+        id: 6,
     },
 ];
 
