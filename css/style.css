@@ -4,6 +4,7 @@
 @import url("./reset.css");
 
 body {
+    background-color: grey;
     font-size: 16px;
     font-family: "playfair display";
     height: 100vh;
@@ -12,8 +13,6 @@ body {
 /*** CONTAINER ***/
 @media only screen and (min-width: 0px) {
     .container {
-        background-color: grey;
-
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: 80px 1fr;

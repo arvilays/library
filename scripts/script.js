@@ -123,7 +123,7 @@ const createBook = book => {
     // Book Cover
     let bookCover = document.createElement("img");
     bookCover.className = "book-cover";
-    bookCover.src = book.cover_url;
+    bookCover.src = book.cover_url.trim();
     bookCover.alt = book.name + " cover";
 
     // Book Information
@@ -132,15 +132,16 @@ const createBook = book => {
 
     let bookTitle = document.createElement("div");
     bookTitle.className = "book-title";
-    bookTitle.textContent = book.title;
+    bookTitle.textContent = book.title.trim();
 
     let bookAuthor = document.createElement("div");
     bookAuthor.className = "book-author";
-    bookAuthor.textContent = book.author;
+    bookAuthor.textContent = book.author.trim();
 
     let bookPages = document.createElement("div");
     bookPages.className = "book-pages";
-    bookPages.textContent = book.pages + " Pages";
+    if (book.pages == 0) bookPages.textContent = "No Pages";
+    else bookPages.textContent = book.pages + " Pages";
 
     let bookRead = document.createElement("div");
     bookRead.className = "book-read";
