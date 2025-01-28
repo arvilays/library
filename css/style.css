@@ -124,7 +124,6 @@ input[type="text"], input[type="number"] {
         justify-items: center;
         width: 100%;
         padding: 30px;
-        border: 1px solid black;
     }
 
     .book-cover {
