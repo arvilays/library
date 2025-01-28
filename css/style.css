@@ -140,7 +140,7 @@ input[type="text"], input[type="number"] {
 
         position: relative;
         bottom: 50%;
-        transform: translate(0%, -50%);
+        transform: translate(0%, -100%);
 
         display: grid;
         flex-direction: column;
@@ -148,6 +148,7 @@ input[type="text"], input[type="number"] {
         gap: 10px;
         
         width: fit-content;
+        min-width: 200px;
         max-width: 100%;
         height: fit-content;
         max-height: 100%;
@@ -206,7 +207,7 @@ input[type="text"], input[type="number"] {
         background-color: white;
         
         position: relative;
-        bottom: 195px;
+        bottom: 40px;
         left: 165px;
         
         width: 60px;

@@ -1,16 +1,22 @@
 const bookContainer = document.querySelector(".book-container");
 const headerAddBook = document.querySelector(".header-add-book");
+
 const addBookWindow = document.querySelector(".add-book-window");
+const addBookTitle = document.querySelector(".add-book-title");
+const addBookAuthor = document.querySelector(".add-book-author");
+const addBookPages = document.querySelector(".add-book-pages");
+const addBookCoverURL = document.querySelector(".add-book-cover-url");
+const addBookRead = document.querySelector("#add-book-read");
 const addBookButton = document.querySelector(".add-book-button");
+
 const mainContainer = document.querySelector(".main");
 
 const unreadColor = "invert(64%) sepia(0%) saturate(530%) hue-rotate(179deg) brightness(101%) contrast(89%)";
 const readColor = "invert(66%) sepia(9%) saturate(6444%) hue-rotate(72deg) brightness(87%) contrast(62%)";
 
-// let myLibrary = [];
-
-let myLibrary = [
-    { title: "The Great Gatsby",
+let myLibrary = JSON.parse(localStorage.getItem("myLibrary")) || [
+    {
+        title: "The Great Gatsby",
         author: "F. Scott Fitzgerald",
         cover_url: "https://m.media-amazon.com/images/I/61dRoDRubtL._SL1500_.jpg",
         pages: 180,
@@ -18,7 +24,8 @@ let myLibrary = [
         id: 0,
     },
 
-    { title: "1984",
+    {
+        title: "1984",
         author: "George Orwell",
         cover_url: "https://m.media-amazon.com/images/I/91VsLImyJgL._SL1500_.jpg",
         pages: 368,
@@ -26,7 +33,8 @@ let myLibrary = [
         id: 1,
     },
 
-    { title: "Lord of the Flies",
+    {
+        title: "Lord of the Flies",
         author: "William Golding",
         cover_url: "https://m.media-amazon.com/images/I/716MU3GOvJL._SL1200_.jpg",
         pages: 182,
@@ -34,7 +42,8 @@ let myLibrary = [
         id: 2,
     },
 
-    { title: "Fahrenheit 451",
+    {
+        title: "Fahrenheit 451",
         author: "Ray Bradbury",
         cover_url: "https://m.media-amazon.com/images/I/61l8LHt4MeL._SL1500_.jpg",
         pages: 194,
@@ -43,8 +52,15 @@ let myLibrary = [
     },
 ];
 
-const main = () => {    
-    // myLibrary = localStorage["myLibrary"];
+const main = () => {   
+    // if (localStorage["myLibrary"]) {
+    //     for (book in sampleLibrary) {
+    //         myLibrary.push(sampleLibrary[book]);
+    //     }
+    // } else {
+    //     myLibrary = JSON.parse(localStorage.getItem("myLibrary"));
+    // }
+    
     updateBooks();
 };
 
@@ -69,19 +85,36 @@ mainContainer.addEventListener("click", () => {
 });
 
 addBookButton.addEventListener("click", () => {
-    
+    let newBook = {};
+    newBook.title = addBookTitle.value;
+    newBook.author = addBookAuthor.value;
+    newBook.pages = addBookPages.value;
+    newBook.cover_url = addBookCoverURL.value;
+    newBook.read = addBookRead.checked;
+    newBook.id = generateAvailableBookID();
+    addBook(newBook);
 });
 
 /*** FUNCTIONS ***/
-const addBook = () => {
-    alert("wow!");
+const generateAvailableBookID = () => {
+    let uniqueID = 0;
+    while (myLibrary.find(item => item.id == uniqueID)) {
+        uniqueID++;
+    }
+    return uniqueID;
+}
+
+const addBook = book => {
+    myLibrary.push(book);
+    updateBooks();
 }
 
 const updateBooks = () => {
+    bookContainer.textContent = "";
     for(book in myLibrary) {
         bookContainer.appendChild(createBook(myLibrary[book]));
     }
-    // localStorage["myLibrary"] = myLibrary;
+    localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
 };
 
 const createBook = book => {
@@ -142,8 +175,8 @@ const createBook = book => {
     else bookReadIndicator.style.opacity = "0%";
     
     bookNew.appendChild(bookCover);
-    bookNew.appendChild(bookInformation);
     bookNew.appendChild(bookReadIndicator);
+    bookNew.appendChild(bookInformation);
 
     bookInformation.addEventListener("mouseover", () => {
         bookInformation.style.opacity = "100%";
@@ -164,11 +197,14 @@ const createBook = book => {
             bookReadImage.style.filter = unreadColor;
             bookReadIndicator.style.opacity = "0%";
         }
+        
+        localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
     });
 
     bookDeleteImage.addEventListener("click", () => {
         myLibrary = myLibrary.filter(item => item.id != book.id);
         bookNew.remove();
+        updateBooks();
     });
 
     return bookNew;
