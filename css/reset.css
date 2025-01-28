@@ -14,6 +14,7 @@ img, picture, video, canvas, svg {
   max-width: 100%;
 }
 input, button, textarea, select {
+  border: 1px solid black;
   font: inherit;
 }
 p, h1, h2, h3, h4, h5, h6 {

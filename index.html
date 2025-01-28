@@ -8,10 +8,26 @@
     <title>Library</title>
 </head>
 <body>
-    
+    <div class="container">
+        <div class="header">
+            <div class="header-title">My Library</div>
+            <div class="header-add-book">+ Add Book</div>
+        </div>
 
+        <div class="add-book-window">
+            <input type="text" class="add-book-title" placeholder="Title">
+            <input type="text" class="add-book-author" placeholder="Author">
+            <input type="number" class="add-book-pages" placeholder="Total Pages">
+            <input type="text" class="add-book-cover-url" placeholder="Cover Image URL">
+            <div class="add-book-read">
+                <input type="checkbox" id="add-book-read"> Read?
+            </div>
+            <div class="add-book-button">Add Book</div>
+        </div>
 
-
-
+        <div class="main">
+            <div class="book-container"></div>
+        </div>
+    </div>
 </body>
 </html>

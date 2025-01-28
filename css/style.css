@@ -1,1 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+/* fonts: "roboto" "playfair display" */
+
 @import url("./reset.css");
+
+body {
+    font-size: 16px;
+    font-family: "playfair display";
+    height: 100vh;
+}
+
+/*** CONTAINER ***/
+@media only screen and (min-width: 0px) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 80px 1fr;
+
+        height: 100%;
+    }
+}
+
+/** HEADER **/
+@media only screen and (min-width: 0px) {
+    .header {
+        z-index: 1;
+        box-shadow: 0px 0px 20px black;
+    }
+
+    .header-title {
+        font-size: 2em; 
+        text-align: center;
+
+        align-content: center;
+
+        height: 100%;
+    }
+
+    .header-add-book {
+        position: absolute;
+        top: 20px;
+        right: 30px;
+        
+        padding: 5px 10px;
+
+        border: 1px solid black;
+        border-radius: 10px;
+    }
+
+    .header-add-book:hover {
+        cursor: pointer;
+        background-color: black;
+        color: white;
+        border: 1px solid white;
+    }
+}
+
+/** ADD BOOK WINDOW **/
+.add-book-window {
+    visibility: hidden;
+    z-index: 1;
+
+    background-color: white;
+
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    padding: 50px;
+
+    border-radius: 20px;
+    
+    opacity: 0%;
+    transition: all 0.25s ease-out;
+}
+
+input[type="text"], input[type="number"] {
+    padding: 5px 10px;
+    width: 300px;
+    border-radius: 10px;
+}
+
+.add-book-read {
+    text-align: center;
+}
+
+.add-book-button {   
+    text-align: center;
+    
+    padding: 5px 10px;
+
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.add-book-button:hover {
+    cursor: pointer;
+    background-color: black;
+    color: white;
+    border: 1px solid white;
+}
+
+
+/** MAIN **/
+@media only screen and (min-width: 0px) {
+    .main {
+        background-color: grey;
+        transition: all 0.5s ease-out;
+    }
+
+    /* BOOK CONTAINER */
+    .book-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+        grid-auto-rows: 600px;
+    }
+
+    .book {
+        justify-items: center;
+        width: 100%;
+        padding: 30px;
+        border: 1px solid black;
+    }
+
+    .book-cover {
+        height: 100%;
+        box-shadow: 5px 5px 5px black;
+    }
+
+    .book-information {
+        background-color: hsla(0, 0%, 0%, 0.75);
+        color: white;
+        text-align: center;
+        line-height: 32px;
+
+        position: relative;
+        bottom: 50%;
+        transform: translate(0%, -50%);
+
+        display: grid;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+        
+        width: fit-content;
+        max-width: 100%;
+        height: fit-content;
+        max-height: 100%;
+        padding: 20px;
+
+        border-radius: 20px;
+
+        opacity: 0%;
+        transition: all 0.25s ease-in;
+    }
+
+    .book-title {
+        font-size: 2em;
+        font-weight: 600;
+    }
+
+    .book-author {
+        font-size: 1.25em;
+        margin-top: -5px;
+    }
+
+    .book-pages {
+        font-size: 0.75em;
+        font-family: "roboto";
+        font-style: italic;
+    }
+    
+    .book-read {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+    }
+
+    .book-read > img {
+        filter: invert(64%) sepia(0%) saturate(530%) hue-rotate(179deg) brightness(101%) contrast(89%);
+        width: 30px;
+    }
+
+    .book-delete {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+    }
+
+    .book-delete > img {
+        filter: invert(27%) sepia(69%) saturate(1974%) hue-rotate(338deg) brightness(111%) contrast(79%);
+        width: 30px;
+    }
+
+    .book-read:hover, .book-delete:hover {
+        cursor: pointer;
+    }
+
+    .book-read-indicator {
+        filter: invert(66%) sepia(9%) saturate(6444%) hue-rotate(72deg) brightness(87%) contrast(62%);
+        background-color: white;
+        
+        position: relative;
+        bottom: 195px;
+        left: 165px;
+        
+        width: 60px;
+        height: 60px;
+        padding: 10px;
+        
+        border-radius: 50%;
+        
+        opacity: 0%;
+        transition: all 0.25s ease-in;
+    }
+}
