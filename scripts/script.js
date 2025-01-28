@@ -52,15 +52,7 @@ let myLibrary = JSON.parse(localStorage.getItem("myLibrary")) || [
     },
 ];
 
-const main = () => {   
-    // if (localStorage["myLibrary"]) {
-    //     for (book in sampleLibrary) {
-    //         myLibrary.push(sampleLibrary[book]);
-    //     }
-    // } else {
-    //     myLibrary = JSON.parse(localStorage.getItem("myLibrary"));
-    // }
-    
+const main = () => {       
     updateBooks();
 };
 
@@ -197,7 +189,7 @@ const createBook = book => {
             bookReadImage.style.filter = unreadColor;
             bookReadIndicator.style.opacity = "0%";
         }
-        
+
         localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
     });
 
@@ -211,41 +203,3 @@ const createBook = book => {
 }
 
 main();
-/*
-EXAMPLE:
-const myLibrary = [];
-
-function Book() {
-
-}
-
-function addBookToLibrary() {
-
-}
-*/
-
-/*
-TODO:
-    - Add New Book option on page, HTML form and data from user
-    - Add Remove Book option on each book, remove book from library
-
-    - Book Information
-        - Title
-        - Author
-        - Pages
-        - Read Status
-
-    - Data Storage is Optional
-
-<div class="book">
-    <img class="book-cover" src="https://m.media-amazon.com/images/I/61dRoDRubtL._SL1500_.jpg" alt="book cover">
-    <div class="book-information">
-        <div class="book-title">The Great Gatsby</div>
-        <div class="book-author">F. Scott Fitzgerald</div>
-        <div class="book-pages">180 Pages</div>
-        <div class="book-read"><img src="./images/book-check.svg" alt="book read"></div>
-        <div class="book-delete"><img src="./images/close-circle.svg" alt="delete book"></div>
-    </div>
-    <img class="book-read-indicator" src="./images/book-check.svg" alt="book read indicator">
-</div>
-*/
