@@ -75,7 +75,7 @@ let myLibrary = JSON.parse(localStorage.getItem("myLibrary")) || [
         cover_url: "https://m.media-amazon.com/images/I/71lnvXSiITL._SL1200_.jpg",
         pages: 224,
         read: false,
-        id: 6,
+        id: 7,
     },
 
     {
@@ -84,7 +84,7 @@ let myLibrary = JSON.parse(localStorage.getItem("myLibrary")) || [
         cover_url: "https://m.media-amazon.com/images/I/81qJxMgdrqL._SL1500_.jpg",
         pages: 192,
         read: false,
-        id: 6,
+        id: 8,
     },
 ];
 
