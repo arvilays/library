@@ -1,19 +1,3 @@
-const bookContainer = document.querySelector(".book-container");
-const headerAddBook = document.querySelector(".header-add-book");
-
-const addBookWindow = document.querySelector(".add-book-window");
-const addBookTitle = document.querySelector(".add-book-title");
-const addBookAuthor = document.querySelector(".add-book-author");
-const addBookPages = document.querySelector(".add-book-pages");
-const addBookCoverURL = document.querySelector(".add-book-cover-url");
-const addBookRead = document.querySelector("#add-book-read");
-const addBookButton = document.querySelector(".add-book-button");
-
-const mainContainer = document.querySelector(".main");
-
-const unreadColor = "invert(64%) sepia(0%) saturate(530%) hue-rotate(179deg) brightness(101%) contrast(89%)";
-const readColor = "invert(66%) sepia(9%) saturate(6444%) hue-rotate(72deg) brightness(87%) contrast(62%)";
-
 let myLibrary = JSON.parse(localStorage.getItem("myLibrary")) || [
     {
         title: "Delicious in Dungeon, Vol. 1",
@@ -89,160 +73,175 @@ let myLibrary = JSON.parse(localStorage.getItem("myLibrary")) || [
 ];
 
 const main = () => {       
-    updateBooks();
+    let mainLibrary = new Library(myLibrary);
+    mainLibrary.updateBooks();
 };
 
-/*** EVENT LISTENERS ***/
-headerAddBook.addEventListener("click", () => {
-    console.log(addBookWindow.style.visibility);
-    if (addBookWindow.style.visibility == "visible") { 
-        addBookWindow.style.visibility = "hidden";
-        addBookWindow.style.opacity = "0%";
-        mainContainer.style.filter = "revert";
-    } else {
-        addBookWindow.style.visibility = "visible";
-        addBookWindow.style.opacity = "100%";
-        mainContainer.style.filter = "grayscale(100) blur(3px)";
+class Library {
+    constructor (library) {
+        this.library = library;
+
+        this.unreadColor = "invert(64%) sepia(0%) saturate(530%) hue-rotate(179deg) brightness(101%) contrast(89%)";
+        this.readColor = "invert(66%) sepia(9%) saturate(6444%) hue-rotate(72deg) brightness(87%) contrast(62%)";
+
+        this.headerAddBook = document.querySelector(".header-add-book");
+        this.addBookWindow = document.querySelector(".add-book-window");
+        this.addBookTitle = this.addBookWindow.querySelector(".add-book-title");
+        this.addBookAuthor = this.addBookWindow.querySelector(".add-book-author");
+        this.addBookPages = this.addBookWindow.querySelector(".add-book-pages");
+        this.addBookCoverURL = this.addBookWindow.querySelector(".add-book-cover-url");
+        this.addBookRead = this.addBookWindow.querySelector("#add-book-read");
+        this.addBookButton = document.querySelector(".add-book-button");
+        this.mainContainer = document.querySelector(".main");
+        this.bookContainer = document.querySelector(".book-container");
+
+        this.headerAddBook.addEventListener("click", () => { this.toggleAddBookWindow(); });
+        this.addBookButton.addEventListener("click", () => { this.getBookFromWindow(); });
+        this.mainContainer.addEventListener("click", () => { this.hideAddBookWindow(); });
     }
-})
 
-mainContainer.addEventListener("click", () => {
-    addBookWindow.style.visibility = "hidden";
-    addBookWindow.style.opacity = "0%";
-    mainContainer.style.filter = "revert";
-});
-
-addBookButton.addEventListener("click", () => {
-    let newBook = {};
-    newBook.title = addBookTitle.value;
-    addBookTitle.value = "";
-    newBook.author = addBookAuthor.value;
-    addBookAuthor.value = "";
-    newBook.pages = addBookPages.value;
-    addBookPages.value = "";
-    newBook.cover_url = addBookCoverURL.value;
-    addBookCoverURL.value = "";
-    newBook.read = addBookRead.checked;
-    addBookRead.checked = false;
-    newBook.id = generateAvailableBookID();
-    addBook(newBook);
-    
-});
-
-/*** FUNCTIONS ***/
-const generateAvailableBookID = () => {
-    let uniqueID = 0;
-    while (myLibrary.find(item => item.id == uniqueID)) {
-        uniqueID++;
+    // Adds book to library array
+    addBook (book) {
+        this.library.push(book);
     }
-    return uniqueID;
-}
 
-const addBook = book => {
-    myLibrary.push(book);
-    updateBooks();
-}
-
-const updateBooks = () => {
-    bookContainer.textContent = "";
-    for(book in myLibrary) {
-        bookContainer.appendChild(createBook(myLibrary[book]));
-    }
-    localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
-};
-
-const createBook = book => {
-    let bookNew = document.createElement("div");
-    bookNew.className = "book";
-    bookNew.id = book.id;
-    
-    // Book Cover
-    let bookCover = document.createElement("img");
-    bookCover.className = "book-cover";
-    bookCover.src = book.cover_url.trim();
-    bookCover.alt = book.name + " cover";
-
-    // Book Information
-    let bookInformation = document.createElement("div");
-    bookInformation.className = "book-information";
-
-    let bookTitle = document.createElement("div");
-    bookTitle.className = "book-title";
-    bookTitle.textContent = book.title.trim();
-
-    let bookAuthor = document.createElement("div");
-    bookAuthor.className = "book-author";
-    bookAuthor.textContent = book.author.trim();
-
-    let bookPages = document.createElement("div");
-    bookPages.className = "book-pages";
-    if (book.pages == 0) bookPages.textContent = "No Pages";
-    else bookPages.textContent = book.pages + " Pages";
-
-    let bookRead = document.createElement("div");
-    bookRead.className = "book-read";
-    let bookReadImage = document.createElement("img");
-    bookReadImage.src = "./images/book-check.svg";
-    bookReadImage.alt = "book read";
-    if (book.read) bookReadImage.style.filter = readColor;
-    else bookReadImage.style.filter = unreadColor;
-    bookRead.appendChild(bookReadImage);
-
-    let bookDelete = document.createElement("div");
-    bookDelete.className = "book-delete";
-    let bookDeleteImage = document.createElement("img");
-    bookDeleteImage.src = "./images/close-circle.svg";
-    bookDeleteImage.alt = "delete book";
-    bookDelete.appendChild(bookDeleteImage);
-
-    bookInformation.appendChild(bookTitle);
-    bookInformation.appendChild(bookAuthor);
-    bookInformation.appendChild(bookPages);
-    bookInformation.appendChild(bookRead);
-    bookInformation.appendChild(bookDelete);
-
-    // Book Read Indicator
-    let bookReadIndicator = document.createElement("img");
-    bookReadIndicator.className = "book-read-indicator";
-    bookReadIndicator.src = "./images/book-check.svg";
-    bookReadIndicator.alt = "book read indicator";
-    if (book.read) bookReadIndicator.style.opacity = "90%";
-    else bookReadIndicator.style.opacity = "0%";
-    
-    bookNew.appendChild(bookCover);
-    bookNew.appendChild(bookReadIndicator);
-    bookNew.appendChild(bookInformation);
-
-    bookInformation.addEventListener("mouseover", () => {
-        bookInformation.style.opacity = "100%";
-    });
-
-    bookInformation.addEventListener("mouseleave", () => {
-        bookInformation.style.opacity = "0%";
-    });
-
-    bookReadImage.addEventListener("click", () => {
-        let currentBook = myLibrary.filter(item => item.id == book.id)[0];
-        currentBook.read = !currentBook.read;
-
-        if (currentBook.read) {
-            bookReadImage.style.filter = readColor;
-            bookReadIndicator.style.opacity = "90%";
-        } else {
-            bookReadImage.style.filter = unreadColor;
-            bookReadIndicator.style.opacity = "0%";
+    // Renders all books in library array
+    updateBooks () {
+        this.bookContainer.textContent = "";
+        for (let book in this.library) {
+            this.bookContainer.appendChild(this.generateBook(this.library[book]));
         }
+        localStorage.setItem("myLibrary", JSON.stringify(this.library));
+    }
 
-        localStorage.setItem("myLibrary", JSON.stringify(myLibrary));
-    });
+    generateAvailableBookID () {
+        let uniqueID = 0;
+        while (this.library.find(item => item.id == uniqueID)) {
+            uniqueID++;
+        }
+        return uniqueID;
+    }
 
-    bookDeleteImage.addEventListener("click", () => {
-        myLibrary = myLibrary.filter(item => item.id != book.id);
-        bookNew.remove();
-        updateBooks();
-    });
+    toggleAddBookWindow () {
+        if (this.addBookWindow.style.visibility == "visible") {
+            this.addBookWindow.style.visibility = "hidden";
+            this.addBookWindow.style.opacity = "0%";
+            this.mainContainer.style.filter = "revert";
+        } else {
+            this.addBookWindow.style.visibility = "visible";
+            this.addBookWindow.style.opacity = "100%";
+            this.mainContainer.style.filter = "grayscale(100) blur(3px)";
+        }
+    }
 
-    return bookNew;
+    hideAddBookWindow() {
+        this.addBookWindow.style.visibility = "hidden";
+        this.addBookWindow.style.opacity = "0%";
+        this.mainContainer.style.filter = "revert";
+    }
+
+    getBookFromWindow () {
+        let newBook = {};
+        newBook.title = this.addBookTitle.value;
+        this.addBookTitle.value = "";
+        newBook.author = this.addBookAuthor.value;
+        this.addBookAuthor.value = "";
+        newBook.pages = this.addBookPages.value;
+        this.addBookPages.value = "";
+        newBook.cover_url = this.addBookCoverURL.value;
+        this.addBookCoverURL.value = "";
+        newBook.read = this.addBookRead.checked;
+        this.addBookRead.checked = false;
+        newBook.id = this.generateAvailableBookID();
+        this.addBook(newBook);
+        this.updateBooks();
+    }
+
+    // Generates div for book using array information
+    generateBook(book) {
+        let bookNew = document.createElement("div");
+        bookNew.className = "book";
+        bookNew.id = book.id;
+
+        // Book Cover
+        let bookCover = document.createElement("img");
+        bookCover.className = "book-cover";
+        bookCover.src = book.cover_url.trim();
+        bookCover.alt = book.name + " cover";
+
+        // Book Information
+        let bookInformation = document.createElement("div");
+        bookInformation.className = "book-information";
+
+        let bookTitle = document.createElement("div");
+        bookTitle.className = "book-title";
+        bookTitle.textContent = book.title.trim();
+
+        let bookAuthor = document.createElement("div");
+        bookAuthor.className = "book-author";
+        bookAuthor.textContent = book.author.trim();
+
+        let bookPages = document.createElement("div");
+        bookPages.className = "book-pages";
+        if (book.pages == 0) bookPages.textContent = "No Pages";
+        else bookPages.textContent = book.pages + " Pages";
+
+        let bookRead = document.createElement("div");
+        bookRead.className = "book-read";
+        let bookReadImage = document.createElement("img");
+        bookReadImage.src = "./images/book-check.svg";
+        bookReadImage.alt = "book read";
+        if (book.read) bookReadImage.style.filter = this.readColor;
+        else bookReadImage.style.filter = this.unreadColor;
+        bookRead.appendChild(bookReadImage);
+
+        let bookDelete = document.createElement("div");
+        bookDelete.className = "book-delete";
+        let bookDeleteImage = document.createElement("img");
+        bookDeleteImage.src = "./images/close-circle.svg";
+        bookDeleteImage.alt = "delete book";
+        bookDeleteImage.addEventListener("click", () => {
+            this.library = this.library.filter(item => item.id != book.id);
+            bookNew.remove();
+            this.updateBooks();
+        });
+        bookDelete.appendChild(bookDeleteImage);
+        bookInformation.appendChild(bookTitle);
+        bookInformation.appendChild(bookAuthor);
+        bookInformation.appendChild(bookPages);
+        bookInformation.appendChild(bookRead);
+        bookInformation.appendChild(bookDelete);
+        bookInformation.addEventListener("mouseover", () => { bookInformation.style.opacity = "100%"; });
+        bookInformation.addEventListener("mouseleave", () => { bookInformation.style.opacity = "0%"; });
+
+        // Book Read Indicator
+        let bookReadIndicator = document.createElement("img");
+        bookReadIndicator.className = "book-read-indicator";
+        bookReadIndicator.src = "./images/book-check.svg";
+        bookReadIndicator.alt = "book read indicator";
+        if (book.read) bookReadIndicator.style.opacity = "90%";
+        else bookReadIndicator.style.opacity = "0%";
+
+        bookNew.appendChild(bookCover);
+        bookNew.appendChild(bookReadIndicator);
+        bookNew.appendChild(bookInformation);
+        bookReadImage.addEventListener("click", () => {
+            let currentBook = this.library.filter(item => item.id == book.id)[0];
+            currentBook.read = !currentBook.read;
+
+            if (currentBook.read) {
+                bookReadImage.style.filter = this.readColor;
+                bookReadIndicator.style.opacity = "90%";
+            } else {
+                bookReadImage.style.filter = this.unreadColor;
+                bookReadIndicator.style.opacity = "0%";
+            }
+
+            localStorage.setItem("myLibrary", JSON.stringify(this.library));
+        });
+
+        return bookNew;
+    }
 }
 
 main();
